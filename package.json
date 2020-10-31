@@ -1,0 +1,33 @@
+{
+  "name": "mreb-cli",
+  "version": "0.0.1",
+  "description": "Cli Created for Help Bootstrapping projects",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moiseR29/mreb-cli.git"
+  },
+  "keywords": [
+    "cli",
+    "mreb"
+  ],
+  "author": "Moises Rebatta <moiserebatta@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/moiseR29/mreb-cli/issues"
+  },
+  "homepage": "https://github.com/moiseR29/mreb-cli#readme",
+  "devDependencies": {
+    "@types/node": "^14.14.6",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "^2.1.2",
+    "typescript": "^4.0.5"
+  }
+}
