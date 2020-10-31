@@ -1,22 +1,26 @@
 import execa from 'execa';
 import shell from 'shelljs';
-import { Log4JS, Log4JsConfigure, LoggerLevel } from './Logger';
+import { LoggerLevel, Logger } from './Logger';
 
 export class ConsoleManager implements LoggerLevel {
-  private logger: Log4JS = Log4JsConfigure.get();
+  private logger: Logger;
 
   static consoleManagerInstance: ConsoleManager;
 
-  log(message: string, extra?: any): void {
-    this.logger.info(message, ...extra);
+  constructor() {
+    this.logger = new Logger();
   }
 
-  warn(message: string, extra?: any): void {
-    this.logger.warn(message, ...extra);
+  log(message: string): void {
+    this.logger.info(message);
   }
 
-  error(message: string, extra?: any): void {
-    this.logger.error(message, ...extra);
+  warn(message: string): void {
+    this.logger.warn(message);
+  }
+
+  error(message: string): void {
+    this.logger.error(message);
   }
 
   exit(code: number): void {

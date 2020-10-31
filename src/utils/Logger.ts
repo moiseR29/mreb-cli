@@ -1,38 +1,21 @@
-import { addLayout, configure, getLogger, Logger } from 'log4js';
+import chalk from 'chalk';
 
 export interface LoggerLevel {
-  log(message: string, extra?: any[]): void;
-  warn(message: string, extra?: any[]): void;
-  error(message: string, extra?: any[]): void;
+  log(message: string): void;
+  warn(message: string): void;
+  error(message: string): void;
 }
 
-export type Log4JS = Logger;
-
-export class Log4JsConfigure {
-  private logger: Log4JS;
-
-  static Log4JsInstance: Log4JsConfigure;
-
-  private constructor() {
-    this.logger = this.defaultConfigureLogger();
+export class Logger {
+  info(message: any) {
+    console.log(chalk.green(message));
   }
 
-  private defaultConfigureLogger(): Log4JS {
-    addLayout('json', () => (logEvent) => {
-      const { data } = logEvent;
-      const [log] = data;
-      return log;
-    });
-
-    configure({
-      appenders: { cheese: { type: 'file', filename: 'cheese.log' } },
-      categories: { default: { appenders: ['cheese'], level: 'error' } },
-    });
-    return getLogger();
+  error(message: any) {
+    console.log(chalk.red(message));
   }
 
-  static get(): Log4JS {
-    if (!this.Log4JsInstance) this.Log4JsInstance = new Log4JsConfigure();
-    return this.Log4JsInstance.logger;
+  warn(message: any) {
+    console.log(chalk.yellow(message));
   }
 }
