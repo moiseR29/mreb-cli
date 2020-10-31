@@ -38,7 +38,10 @@ export class ArgsManager {
       };
     } catch (error) {
       if (error.code === 'ARG_UNKNOWN_OPTION') {
-        Log.error(error.message);
+        const [, wrongCommand] = error.message.split(':');
+        Log.error(
+          `Command ["${wrongCommand.trim()}"] not supported, please check documentation`,
+        );
         Log.exit(1);
       } else {
         throw error;
