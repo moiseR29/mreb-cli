@@ -1,6 +1,9 @@
 import { ICommandOption } from './ICommandOption';
 import { CommandOptionFactory } from './CommandFactory';
 import { ArgsManager, Options } from '../Args';
+import { ConsoleManager } from '../utils';
+
+const cmd: ConsoleManager = ConsoleManager.get();
 
 class CommandManager {
   private command: ICommandOption;
@@ -24,6 +27,7 @@ class CommandManager {
   }
 
   getCommand(): ICommandOption {
+    cmd.clear();
     return this.command;
   }
 }

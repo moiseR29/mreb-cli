@@ -1,5 +1,6 @@
 import execa from 'execa';
 import shell from 'shelljs';
+import clear from 'clear';
 import { LoggerLevel, Logger } from './Logger';
 
 export class ConsoleManager implements LoggerLevel {
@@ -21,6 +22,10 @@ export class ConsoleManager implements LoggerLevel {
 
   error(message: string): void {
     this.logger.error(message);
+  }
+
+  clear(): void {
+    clear();
   }
 
   exit(code: number): void {
