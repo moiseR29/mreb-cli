@@ -16,6 +16,7 @@ export class ObfuscateCommand implements ICommandOption {
     await this.executeParcel(options);
     await this.executeObf(options);
     this.checkGenerated(options);
+    this.copyOtherFilesSourceToTarget(options);
     this.deletedGenerated();
   }
 
@@ -26,16 +27,20 @@ export class ObfuscateCommand implements ICommandOption {
   }
 
   private async executeObf(options: Options): Promise<void> {
-    const command = `npx javascript-obfuscator ./tmp --output ${options.output}`;
+    const command = `npx javascript-obfuscator tmp --output ${options.target}`;
     await cmd.executeCommand(command);
   }
 
   private checkGenerated(options: Options): void {
-    const tmpRoute = `${options.output}/tmp`;
+    const tmpRoute = `${options.target}/tmp`;
     if (PathManager.checkIfExistFile(tmpRoute)) {
-      cmd.moveFile(`${tmpRoute}/*`, `${options.output}`);
+      cmd.moveFile(`${tmpRoute}/*`, `${options.target}`);
       cmd.deleteFile(tmpRoute);
     }
+  }
+
+  private copyOtherFilesSourceToTarget(options: Options) {
+    cmd.copyFileNotOverWrite(`${options.source}/*`, options.target);
   }
 
   private deletedGenerated(): void {

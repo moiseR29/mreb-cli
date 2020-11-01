@@ -9,7 +9,7 @@ export type Options = {
   js: boolean;
   ts: boolean;
   obfuscate: boolean;
-  output: string;
+  target: string;
   source: string;
 };
 
@@ -27,7 +27,7 @@ export class ArgsManager {
 
           // obfuscate commad
           '--obfuscate': Boolean,
-          '--output': String,
+          '--target': String,
           '--source': String,
 
           // common to create and obfuscate
@@ -37,8 +37,8 @@ export class ArgsManager {
           // Alias
           '-v': '--version',
           '-c': '--create',
-          '-ob': '--obfuscate',
-          '-o': '--output',
+          '-o': '--obfuscate',
+          '-t': '--target',
           '-s': '--source',
         },
         {
@@ -62,7 +62,7 @@ export class ArgsManager {
         js: args['--js'] || false,
         ts: args['--ts'] || false,
         obfuscate: args['--obfuscate'] || false,
-        output: args['--output'] || defaultOutput,
+        target: args['--target'] || defaultOutput,
         source: args['--source'] || defaultSource,
       };
     } catch (error) {

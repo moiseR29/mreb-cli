@@ -59,6 +59,11 @@ export class ConsoleManager implements LoggerLevel {
     shell.cp('-R', sourcePath, targetPath);
   }
 
+  copyFileNotOverWrite(sourcePath: string, targetPath: string): void {
+    shell.config.silent = true;
+    shell.cp('-Rn', sourcePath, targetPath);
+  }
+
   deleteFile(path: string): void {
     shell.rm('-rf', path);
   }
