@@ -12,10 +12,8 @@ enum SO_TYPES {
 
 const cmd: ConsoleManager = ConsoleManager.get();
 
-export class PathManager {
+class PathManager {
   private folderDist = 'dist';
-
-  static pathManagerInstance: PathManager;
 
   getCurrentUserDirectory(): string {
     return path.resolve(process.cwd());
@@ -68,9 +66,7 @@ export class PathManager {
     } catch (error) {}
     return response;
   }
-
-  static get(): PathManager {
-    if (!this.pathManagerInstance) this.pathManagerInstance = new PathManager();
-    return this.pathManagerInstance;
-  }
 }
+
+const i: PathManager = new PathManager();
+export { i as PathManager };

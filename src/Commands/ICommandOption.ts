@@ -1,4 +1,6 @@
+import { Options } from '../Args';
+
 export interface ICommandOption {
   name: string;
-  execute(options?: string[]): void | Promise<void>;
+  execute(options?: Options): void | Promise<void>;
 }
