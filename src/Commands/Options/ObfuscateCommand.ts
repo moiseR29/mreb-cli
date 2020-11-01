@@ -1,5 +1,5 @@
 import { Options } from '../../Args';
-import { ConsoleManager, PathManager } from '../../utils';
+import { ConsoleManager, PathManager, Spinner } from '../../utils';
 import { ICommandOption } from '../ICommandOption';
 
 const Log: ConsoleManager = ConsoleManager.get();
@@ -14,11 +14,14 @@ export class ObfuscateCommand implements ICommandOption {
   }
 
   async execute(options: Options): Promise<void> {
+    Log.log(`obfuscate ${options.source} => ${options.target}`);
+    const spinner = new Spinner('Initilling obfuscate');
     await this.executeParcel(options);
-    await this.executeObf(options);
-    this.lastCorrectGenerated(options);
+    await this.executeObf(options, spinner);
+    this.lastCorrectGenerated(options, spinner);
     this.copyOtherFilesSourceToTarget(options);
-    this.deletedGenerated();
+    this.deletedGenerated(spinner);
+    this.happyMessage();
   }
 
   private async executeParcel(options: Options): Promise<void> {
@@ -27,7 +30,7 @@ export class ObfuscateCommand implements ICommandOption {
     await cmd.executeCommand(command);
   }
 
-  private async executeObf(options: Options): Promise<void> {
+  private async executeObf(options: Options, spinner: Spinner): Promise<void> {
     let target = options.target;
     if (options.source === options.target) {
       target = './tmp';
@@ -35,9 +38,11 @@ export class ObfuscateCommand implements ICommandOption {
     }
     const command = `npx javascript-obfuscator tmp --output ${target}`;
     await cmd.executeCommand(command);
+    spinner.markedSuccessAndInitNewTask('Finishing Obfuscate');
   }
 
-  private lastCorrectGenerated(options: Options): void {
+  private lastCorrectGenerated(options: Options, spinner: Spinner): void {
+    spinner.markedSuccessAndInitNewTask('Check Generate');
     if (this.equalsSourceAndTarget) {
       let tmpRoute = `./tmp/tmp`;
       if (!PathManager.checkIfExistFile(tmpRoute)) tmpRoute = './tmp';
@@ -56,8 +61,16 @@ export class ObfuscateCommand implements ICommandOption {
       cmd.copyFileNotOverWrite(`${options.source}/*`, options.target);
   }
 
-  private deletedGenerated(): void {
+  private deletedGenerated(spinner: Spinner): void {
     cmd.deleteFile('./tmp');
     cmd.deleteFile('./.cache');
+    spinner.markedSuccessAndInitNewTask('Correct generate');
+    spinner.stopSpinner();
+  }
+
+  private happyMessage(): void {
+    Log.log('');
+    Log.log('Obfuscate Successfully!!  🤟🤟🤟🤟');
+    Log.exit(0);
   }
 }
