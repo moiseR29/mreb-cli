@@ -1,0 +1,8 @@
+.github/
+node_modules/
+src/
+.editorconfig
+.eslintignore
+.eslintrc
+.prettierrc
+tsconfig.json

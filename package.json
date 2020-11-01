@@ -1,0 +1,58 @@
+{
+  "name": "mreb-cli",
+  "version": "0.0.1",
+  "description": "Cli Created for Help Bootstrapping projects",
+  "main": "bin/mreb",
+  "bin": {
+    "mreb": "bin/mreb",
+    "mreb-cli": "bin/mreb"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc -w",
+    "lint": "eslint . --ext .ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moiseR29/mreb-cli.git"
+  },
+  "keywords": [
+    "cli",
+    "mreb"
+  ],
+  "author": "Moises Rebatta <moiserebatta@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/moiseR29/mreb-cli/issues"
+  },
+  "homepage": "https://github.com/moiseR29/mreb-cli#readme",
+  "devDependencies": {
+    "@types/app-root-path": "^1.2.4",
+    "@types/clear": "^0.1.0",
+    "@types/node": "^14.14.6",
+    "@types/shelljs": "^0.8.8",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "eslint": "^7.12.1",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "prettier": "^2.1.2",
+    "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "app-root-path": "^3.0.0",
+    "arg": "^4.1.3",
+    "chalk": "^4.1.0",
+    "clear": "^0.1.0",
+    "execa": "^4.1.0",
+    "ora": "^5.1.0",
+    "path": "^0.12.7",
+    "shelljs": "^0.8.4"
+  },
+  "huksy": {
+    "hooks": {
+      "pre-push": "npm run lint"
+    }
+  }
+}

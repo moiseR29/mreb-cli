@@ -1,0 +1,14 @@
+{
+  "extends": ["standard", "plugin:prettier/recommended"],
+  "rules": {
+    "prettier/prettier": "error",
+    "no-throw-literal": "off",
+    "camelcase": "off",
+    "no-global-assign": "off"
+  },
+  "env": {
+    "mocha": true,
+    "node": true
+  },
+  "parser": "babel-eslint"
+}
