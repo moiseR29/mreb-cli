@@ -4,7 +4,7 @@ export class Spinner {
   private spinner: ora.Ora;
 
   constructor(message: string) {
-    this.spinner = ora(message);
+    this.spinner = ora({ text: message, spinner: 'bouncingBar' });
     this.spinner.start();
   }
 
