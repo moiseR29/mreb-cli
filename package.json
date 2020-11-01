@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsc",
     "build:watch": "tsc -w",
-    "lint": "eslint . --ext .ts"
+    "lint": "eslint . --ext .ts",
+    "prepublish": "npm run build"
   },
   "repository": {
     "type": "git",
