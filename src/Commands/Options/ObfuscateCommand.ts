@@ -7,6 +7,7 @@ const cmd: ConsoleManager = Log;
 
 export class ObfuscateCommand implements ICommandOption {
   name: string;
+  private equalsSourceAndTarget = false;
 
   constructor() {
     this.name = 'obfuscate';
@@ -15,7 +16,7 @@ export class ObfuscateCommand implements ICommandOption {
   async execute(options: Options): Promise<void> {
     await this.executeParcel(options);
     await this.executeObf(options);
-    this.checkGenerated(options);
+    this.lastCorrectGenerated(options);
     this.copyOtherFilesSourceToTarget(options);
     this.deletedGenerated();
   }
@@ -27,20 +28,32 @@ export class ObfuscateCommand implements ICommandOption {
   }
 
   private async executeObf(options: Options): Promise<void> {
-    const command = `npx javascript-obfuscator tmp --output ${options.target}`;
+    let target = options.target;
+    if (options.source === options.target) {
+      target = './tmp';
+      this.equalsSourceAndTarget = true;
+    }
+    const command = `npx javascript-obfuscator tmp --output ${target}`;
     await cmd.executeCommand(command);
   }
 
-  private checkGenerated(options: Options): void {
-    const tmpRoute = `${options.target}/tmp`;
-    if (PathManager.checkIfExistFile(tmpRoute)) {
-      cmd.moveFile(`${tmpRoute}/*`, `${options.target}`);
-      cmd.deleteFile(tmpRoute);
+  private lastCorrectGenerated(options: Options): void {
+    if (this.equalsSourceAndTarget) {
+      let tmpRoute = `./tmp/tmp`;
+      if (!PathManager.checkIfExistFile(tmpRoute)) tmpRoute = './tmp';
+      cmd.copyFile(`${tmpRoute}/*`, options.target);
+    } else {
+      const tmpRoute = `${options.target}/tmp`;
+      if (PathManager.checkIfExistFile(tmpRoute)) {
+        cmd.moveFile(`${tmpRoute}/*`, `${options.target}`);
+        cmd.deleteFile(tmpRoute);
+      }
     }
   }
 
   private copyOtherFilesSourceToTarget(options: Options) {
-    cmd.copyFileNotOverWrite(`${options.source}/*`, options.target);
+    if (!this.equalsSourceAndTarget)
+      cmd.copyFileNotOverWrite(`${options.source}/*`, options.target);
   }
 
   private deletedGenerated(): void {
