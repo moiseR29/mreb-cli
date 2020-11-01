@@ -1,5 +1,5 @@
 import arg from 'arg';
-import { ConsoleManager } from '../utils';
+import { ConsoleManager, PathManager } from '../utils';
 
 const Log: ConsoleManager = ConsoleManager.get();
 
@@ -8,6 +8,9 @@ export type Options = {
   create: boolean;
   js: boolean;
   ts: boolean;
+  obfuscate: boolean;
+  output: string;
+  source: string;
 };
 
 export class ArgsManager {
@@ -21,16 +24,36 @@ export class ArgsManager {
 
           // create command
           '--create': Boolean,
+
+          // obfuscate commad
+          '--obfuscate': Boolean,
+          '--output': String,
+          '--source': String,
+
+          // common to create and obfuscate
           '--js': Boolean,
           '--ts': Boolean,
 
           // Alias
           '-v': '--version',
           '-c': '--create',
+          '-ob': '--obfuscate',
+          '-o': '--output',
+          '-s': '--source',
         },
         {
           argv: process.argv.slice(2),
         },
+      );
+
+      // default
+      const defaultOutput = PathManager.pathJoin(
+        PathManager.getCurrentUserDirectory(),
+        './dist',
+      );
+      const defaultSource = PathManager.pathJoin(
+        PathManager.getCurrentUserDirectory(),
+        './src',
       );
 
       return {
@@ -38,6 +61,9 @@ export class ArgsManager {
         create: args['--create'] || false,
         js: args['--js'] || false,
         ts: args['--ts'] || false,
+        obfuscate: args['--obfuscate'] || false,
+        output: args['--output'] || defaultOutput,
+        source: args['--source'] || defaultSource,
       };
     } catch (error) {
       if (error.code === 'ARG_UNKNOWN_OPTION') {

@@ -23,6 +23,11 @@ class CommandManager {
     if (this.args.version) {
       commandSelected = CommandOptionFactory.get('version');
     }
+
+    if (this.args.obfuscate) {
+      commandSelected = CommandOptionFactory.get('obfuscate');
+    }
+
     return commandSelected;
   }
 
