@@ -16,7 +16,10 @@ export class ArgsManager {
       // Config Args
       const args: any = arg(
         {
+          // version command
           '--version': Boolean,
+
+          // create command
           '--create': Boolean,
           '--js': Boolean,
           '--ts': Boolean,
