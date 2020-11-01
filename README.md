@@ -10,6 +10,24 @@ foo@bar:~$ npm i -g mreb-cli
 
 ## Commands
 
+### Obfuscate
+
+```bash
+foo@bar:~$ mreb --obfuscate --source [path] --target [path] [options]
+```
+
+> alias mreb -o -s [path] -t [path] [options]
+
+- obfuscate: boolean type
+- source: String type => Default src
+- target: String Type => Default dist
+
+- Options: What file to obfuscate
+  - js: --js [Default]
+  - ts: --ts
+
+> Packages used **[parcel](https://www.npmjs.com/package/parcel)** and **[javascript-obfuscator](https://www.npmjs.com/package/javascript-obfuscator)**
+
 ### Create JS
 
 ```
@@ -24,6 +42,8 @@ foo@bar:~$ npm i -g mreb-cli
 ```bash
 foo@bar:~$  mreb --create --js
 ```
+
+> alias mreb -c --js
 
 ### Create TS
 
@@ -41,6 +61,8 @@ foo@bar:~$  mreb --create --js
 ```bash
 foo@bar:~$  mreb --create --ts
 ```
+
+> alias mreb -c --ts
 
 ----------
 

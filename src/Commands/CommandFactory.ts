@@ -1,4 +1,9 @@
-import { CreateOption, VersionOption, NullCommand } from './Options';
+import {
+  CreateOption,
+  VersionOption,
+  NullCommand,
+  ObfuscateCommand,
+} from './Options';
 import { ICommandOption } from './ICommandOption';
 import { ConsoleManager } from '../utils';
 
@@ -8,7 +13,12 @@ class CommandOptionFactory {
   private commands = new Map<string, ICommandOption>();
 
   constructor() {
-    this.register([new VersionOption(), new CreateOption(), new NullCommand()]);
+    this.register([
+      new VersionOption(),
+      new CreateOption(),
+      new NullCommand(),
+      new ObfuscateCommand(),
+    ]);
   }
 
   register(commandsOptions: ICommandOption[]): void {
