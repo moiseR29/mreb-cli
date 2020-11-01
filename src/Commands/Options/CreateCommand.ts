@@ -1,6 +1,16 @@
 import { Options } from '../../Args';
 import { ConsoleManager, PathManager, Spinner } from '../../utils';
 import { ICommandOption } from '../ICommandOption';
+import {
+  editorConfig,
+  eslintIgnoreJS,
+  eslintIgnoreTs,
+  eslintRcJs,
+  eslintRcTs,
+  gitIgnore,
+  prettierRc,
+  tsConfig,
+} from '../../Files';
 
 const Log: ConsoleManager = ConsoleManager.get();
 const cmd: ConsoleManager = Log;
@@ -31,14 +41,23 @@ export class CreateOption implements ICommandOption {
   }
 
   private async createTemplateCommon(spinner: Spinner): Promise<void> {
-    const routeCli = PathManager.getThisCliPath();
-    const routeTemplateCommon = '/template/common/.*';
-    const routeCurrentUser = PathManager.getCurrentUserDirectory();
-    const normalizeRouteTempCommon = PathManager.pathJoin(
-      routeCli,
-      routeTemplateCommon,
+    const writeFile = PathManager.writeFile;
+
+    writeFile(
+      this.normalizePathUserCliWrite(editorConfig.name),
+      editorConfig.content,
     );
-    cmd.copyFile(normalizeRouteTempCommon, routeCurrentUser);
+
+    writeFile(
+      this.normalizePathUserCliWrite(gitIgnore.name),
+      gitIgnore.content,
+    );
+
+    writeFile(
+      this.normalizePathUserCliWrite(prettierRc.name),
+      prettierRc.content,
+    );
+
     spinner.markedSuccessAndInitNewTask('Starting npm');
     const initNpmCommand = 'npm init -y';
     await cmd.executeCommand(initNpmCommand);
@@ -48,14 +67,23 @@ export class CreateOption implements ICommandOption {
     options: Options,
     spinner: Spinner,
   ): Promise<void> {
-    const routeCli = PathManager.getThisCliPath();
-    const routeTemplate = options.js ? '/template/js/.*' : '/template/ts/.*';
-    const routeCurrentUser = PathManager.getCurrentUserDirectory();
-    const normalizeRouteTemplate = PathManager.pathJoin(
-      routeCli,
-      routeTemplate,
+    const writeFile = PathManager.writeFile;
+
+    const eslintRc = options.js ? eslintRcJs : eslintRcTs;
+    const eslintIgnore = options.js ? eslintIgnoreJS : eslintIgnoreTs;
+
+    writeFile(this.normalizePathUserCliWrite(eslintRc.name), eslintRc.content);
+    writeFile(
+      this.normalizePathUserCliWrite(eslintIgnore.name),
+      eslintIgnore.content,
     );
-    cmd.copyFile(normalizeRouteTemplate, routeCurrentUser);
+
+    if (options.ts) {
+      writeFile(
+        this.normalizePathUserCliWrite(tsConfig.name),
+        tsConfig.content,
+      );
+    }
 
     const installDependenciesCommandJS = `npm i babel-eslint eslint eslint-config-prettier eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-prettier eslint-plugin-standard esm prettier standard -D`;
     const installDependenciesCommandTS = `npm i @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier eslint-plugin-prettier prettier typescript -D`;
@@ -79,5 +107,10 @@ export class CreateOption implements ICommandOption {
   private happyMessage(): void {
     Log.log(`Happy Coding 💻💻💻`);
     Log.exit(0);
+  }
+
+  private normalizePathUserCliWrite(newFile: string): string {
+    const routeCurrentUser = PathManager.getCurrentUserDirectory();
+    return PathManager.pathJoin(routeCurrentUser, newFile);
   }
 }
