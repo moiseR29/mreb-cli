@@ -14,8 +14,8 @@ export class ObfuscateCommand implements ICommandOption {
   }
 
   async execute(options: Options): Promise<void> {
-    Log.log(`obfuscate ${options.source} => ${options.target}`);
-    const spinner = new Spinner('Initilling obfuscate');
+    Log.log(`obfuscate ${options.source} => ${options.target} \n`);
+    const spinner = new Spinner('Starting obfuscate');
     await this.executeParcel(options);
     await this.executeObf(options, spinner);
     this.lastCorrectGenerated(options, spinner);
@@ -69,8 +69,7 @@ export class ObfuscateCommand implements ICommandOption {
   }
 
   private happyMessage(): void {
-    Log.log('');
-    Log.log('Obfuscate Successfully!!  🤟🤟🤟🤟');
+    Log.log('\n Obfuscate Successfully!!  🤟🤟🤟🤟');
     Log.exit(0);
   }
 }

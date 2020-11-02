@@ -101,11 +101,10 @@ export class CreateOption implements ICommandOption {
 
     await cmd.executeCommand(initGit);
     spinner.stopSpinner();
-    Log.log('');
   }
 
   private happyMessage(): void {
-    Log.log(`Happy Coding 💻💻💻`);
+    Log.log(`\n Happy Coding 💻💻💻`);
     Log.exit(0);
   }
 
