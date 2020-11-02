@@ -1,5 +1,9 @@
 # MREB CLI
 
+## 0.1.1
+
+- Correct words :)
+
 ## 0.1.0
 
 - Added function obfuscate
