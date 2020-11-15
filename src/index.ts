@@ -7,3 +7,5 @@ export class Cli {
     await command.execute(ArgsManager.getOptions());
   }
 }
+
+Cli.init();
