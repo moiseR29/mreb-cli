@@ -1,5 +1,9 @@
 # MREB CLI
 
+## 0.1.2
+
+- default project --ts not includes parcel, in case add --js (project js) includes parcel.
+
 ## 0.1.1
 
 - Correct words :)
