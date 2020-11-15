@@ -22,9 +22,9 @@ foo@bar:~$ mreb --obfuscate --source [path] --target [path] [options]
 - source: String type => Default src
 - target: String Type => Default dist
 
-- Options: What file to obfuscate
-  - js: --js [Default]
-  - ts: --ts
+- Options: What type project to obfuscate
+  - js: --js  in case to project only javascript, includes parcel.
+  Default --ts, not includes parcel
 
 > Packages used **[parcel](https://www.npmjs.com/package/parcel)** and **[javascript-obfuscator](https://www.npmjs.com/package/javascript-obfuscator)**
 
