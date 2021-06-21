@@ -1,15 +1,15 @@
-import { Options } from '../../Args';
-import { ConsoleManager, PathManager, Spinner } from '../../utils';
-import { ICommandOption } from '../ICommandOption';
+import {Options} from '../../Args';
+import {ConsoleManager, PathManager, Spinner} from '../../utils';
+import {ICommandOption} from '../ICommandOption';
 import {
   editorConfig,
-  eslintIgnoreJS,
-  eslintIgnoreTs,
+  eslintIgnore,
   eslintRcJs,
   eslintRcTs,
   gitIgnore,
   prettierRc,
   tsConfig,
+  jestConfig
 } from '../../Files';
 
 const Log: ConsoleManager = ConsoleManager.get();
@@ -58,6 +58,11 @@ export class CreateOption implements ICommandOption {
       prettierRc.content,
     );
 
+    writeFile(
+      this.normalizePathUserCliWrite(eslintIgnore.name),
+      eslintIgnore.content,
+    )
+
     spinner.markedSuccessAndInitNewTask('Starting npm');
     const initNpmCommand = 'npm init -y';
     await cmd.executeCommand(initNpmCommand);
@@ -70,23 +75,22 @@ export class CreateOption implements ICommandOption {
     const writeFile = PathManager.writeFile;
 
     const eslintRc = options.js ? eslintRcJs : eslintRcTs;
-    const eslintIgnore = options.js ? eslintIgnoreJS : eslintIgnoreTs;
 
     writeFile(this.normalizePathUserCliWrite(eslintRc.name), eslintRc.content);
-    writeFile(
-      this.normalizePathUserCliWrite(eslintIgnore.name),
-      eslintIgnore.content,
-    );
 
     if (options.ts) {
       writeFile(
         this.normalizePathUserCliWrite(tsConfig.name),
         tsConfig.content,
       );
+      writeFile(
+        this.normalizePathUserCliWrite(jestConfig.name),
+        jestConfig.content,
+      )
     }
 
     const installDependenciesCommandJS = `npm i babel-eslint eslint eslint-config-prettier eslint-config-standard eslint-plugin-import eslint-plugin-node eslint-plugin-prettier eslint-plugin-standard esm prettier standard -D`;
-    const installDependenciesCommandTS = `npm i @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier eslint-plugin-prettier prettier typescript -D`;
+    const installDependenciesCommandTS = `npm i @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-config-prettier eslint-plugin-prettier eslint-plugin-security prettier typescript @types/jest jest ts-jest -D`;
     const initGit = 'git init';
 
     spinner.markedSuccessAndInitNewTask('Installing Dependencies');
