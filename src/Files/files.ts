@@ -10,28 +10,11 @@ insert_final_newline = true
 trim_trailing_whitespace = true`,
 };
 
-export const gitIgnore = {
-  name: '.gitignore',
-  content: `node_modules/`,
-};
-
-export const prettierRc = {
-  name: '.prettierrc',
-  content: `{
-  "bracketSpacing": true,
-  "printWidth": 80,
-  "semi": true,
-  "singleQuote": true,
-  "tabWidth": 2,
-  "trailingComma": "all",
-  "endOfLine": "auto"
-}
-`,
-};
-
-export const eslintIgnoreJS = {
+export const eslintIgnore = {
   name: '.eslintignore',
-  content: `node_modules`,
+  content: `node_modules
+dist
+build`,
 };
 
 export const eslintRcJs = {
@@ -53,33 +36,71 @@ export const eslintRcJs = {
 `,
 };
 
-export const eslintIgnoreTs = {
-  name: '.eslintignore',
-  content: `node_modules
-dist
-build`,
-};
-
 export const eslintRcTs = {
   name: '.eslintrc',
   content: `{
+  "root": true,
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"
   },
+  "plugins": [
+    "@typescript-eslint",
+    "prettier",
+    "security"
+  ],
   "extends": [
+    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "prettier/@typescript-eslint",
-    "plugin:prettier/recommended"
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:prettier/recommended",
+    "plugin:security/recommended"
   ],
   "rules": {
     "prettier/prettier": "error",
     "no-throw-literal": "off",
     "camelcase": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off"
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
+}
+`,
+};
+
+export const gitIgnore = {
+  name: '.gitignore',
+  content: `node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+coverage
+.npm
+.eslintcache
+.env
+.cache
+dist
+build
+
+.dccache
+.npmrc
+  `
+};
+
+export const prettierRc = {
+  name: '.prettierrc',
+  content: `{
+  "bracketSpacing": true,
+  "printWidth": 80,
+  "semi": true,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "endOfLine": "auto"
 }
 `,
 };
@@ -90,17 +111,49 @@ export const tsConfig = {
   "compilerOptions": {
     "target": "ES2019",
     "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "moduleResolution": "node",
     "strict": true,
-    "esModuleInterop": true,
+    "declaration": true,
     "skipLibCheck": true,
     "typeRoots": ["./node_modules/@types"],
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true
+    "outDir": "./build",
+    "esModuleInterop": true
   },
-  "exclude": ["node_modules", "template"],
-  "include": ["src/"]
+  "exclude": [
+    "node_modules",
+    "build",
+    "test",
+    "**/__tests__/**/*",
+    "**/__mocks__/**/*"
+  ],
+  "include": [
+    "src/"
+  ]
 }
 `,
 };
+
+export const jestConfig = {
+  name: 'jest.config.js',
+  content: `/* eslint-disable @typescript-eslint/no-var-requires */
+// eslint-disable-next-line no-undef
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
+  //collectCoverage: true,
+  coveragePathIgnorePatterns: [
+    '<rootDir>/build/',
+    '<rootDir>/dist/',
+    '<rootDir>/node_modules/'
+  ],
+  coverageDirectory: '<rootDir>/coverage',
+  testMatch: ['**/test/**/*.test.+(ts)'],
+  //verbose: true,
+  transform: {
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+  },
+  forceExit: true,
+  //testTimeout: 10000
+};
+  `
+}
