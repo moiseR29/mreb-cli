@@ -1,5 +1,10 @@
 # MREB CLI
 
+## 0.1.3
+
+- added plugins on .eslintrc
+- add jest (only ts projects)
+
 ## 0.1.2
 
 - default project --ts not includes parcel, in case add --js (project js) includes parcel.
